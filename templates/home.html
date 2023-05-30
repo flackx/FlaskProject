@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <style>
+        .button-corner {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Home Page</h1>
+    <p>This is your homepage content.</p>
+
+    <div class="button-corner">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
