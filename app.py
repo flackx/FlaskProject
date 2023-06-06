@@ -77,7 +77,7 @@ def register():
         user_service.register_user(username, password, email)
 
         # Redirect to a success page or another route
-        return redirect(url_for('registration_success'))
+        return redirect(url_for('home'))
 
     # Render the registration form
     return render_template('register.html')
