@@ -89,54 +89,85 @@ nav ul li.sludinajums .slud {
   position: absolute;
   color: #000080;
 }
-
-.details {
+.contents {
   height: 100%;
   width: 70%;
-  display: block;
+  display: flex;
   margin: 0 auto;
   padding: 20px;
   background-color: #f5f5f5;
+  flex-direction: column;
 }
-.pic-centered {
-  display: flex;
-  justify-content: center;
-}
-.pic img {
-  width: 900px;
-}
-.pic {
-  position: relative;
+.forma {
+  margin: 0px auto;
 }
 
-.pic img {
-  max-height: 500px;
-  width: auto;
-  padding: 5px;
-  border: 2px solid;
+.title {
+  font-family: Roboto, sans-sarif;
+  font-weight: Bold;
+  font-size: 24px;
+  text-align: center;
+  color: black;
+}
+
+.label {
+  text-align: center;
+  font-family: Roboto, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.lauks input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   border-image: linear-gradient(6deg, #d4145a 27%, #fbb03b 100%);
   border-image-slice: 1;
+  font-size: 16px;
+  width: 400px;
+  transition: border-color 0.3s ease;
 }
-
-.heading-container {
-  display: flex;
-  align-items: center;
+.lauks input:focus {
+  outline: none;
+  border-color: #6c63ff;
+}
+.lauks_apraksts textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-image: linear-gradient(6deg, #d4145a 27%, #fbb03b 100%);
+  border-image-slice: 1;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 400px;
+  height: 200px;
+  transition: border-color 0.3s ease;
+}
+.lauks_apraksts textarea:focus {
+  outline: none;
+  border-color: #6c63ff;
+}
+.rinda {
   padding: 10px;
 }
-.heading-container img {
-  width: 30px;
-  margin-right: 10px;
-}
-.heading-container h1 {
-  font-size: 24px;
-  font-family: Roboto, sans-sarif;
+
+input[type="submit"] {
+  background-color: transparent;
+  color: #3498db;
+  border: 2px solid #3498db;
+  padding: 20px 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h3 {
-  font-family: roboto, sans-serif;
+input[type="submit"]:hover {
+  background-color: #3498db;
+  color: #fff;
 }
-p {
-  padding: 20px;
+.poga {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 footer {

@@ -3,40 +3,56 @@
 
 <head>
   <title>Car Sale - Car Details</title>
+  <meta charset="utf-8" />
   <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/details.css') }}"
     />
 </head>
 <body>
-  <h1>Car Details</h1>
-
-  <img src="{{ url_for('static', filename=car['image_path'].replace('static/', '')) }}" alt="Car Image">
-
-  <div>
-    <strong>Make:</strong> {{ car.make }}
-  </div>
-
-  <div>
-    <strong>Model:</strong> {{ car.model }}
-  </div>
-
-  <div>
-    <strong>Year:</strong> {{ car.year }}
-  </div>
-
-
-
-  <div>
-    <strong>Price:</strong> {{ car.price }}
-  </div>
-
-  <div>
-    <strong>Phone Number:</strong> {{ car.phone_number }}
-  </div>
-<div>
-    <strong>Description:</strong> {{ car.description }}
-  </div>
-
+  <nav>
+    <div class="sitename">NotSS</div>
+    <ul>
+      <li><a href="{{ url_for('home') }}">Transporti</a></li>
+      <li><a href="">Mājokļi</a></li>
+      <li><a href="">Elektronikas Preces</a></li>
+      <li class="sludinajums">
+        <a href="{{ url_for('uploadcar') }}" class="slud">Pievienot sludinājumu</a>
+      </li>
+    </ul>
+    <div id="logout-button">
+      <a href="{{ url_for('logout') }}" class="slud">Iziet</a>
+    </div>
+  </nav>
+  <content class="details">
+    <div class="heading-container">
+      <img
+        src="{{ url_for('static', filename='images/caricon.png') }}"
+        alt="Ikona"
+      />
+      <h1>{{ car['make'] }} {{ car['model'] }} ({{ car['year'] }})</h1>
+    </div>
+    <div class="pic-centered">
+      <div class="pic">
+        <img
+          src="{{ url_for('static', filename=car['image_path'].replace('static/', '')) }}"
+          alt="Car Image"
+        />
+      </div>
+    </div>
+    <div class="info">
+      <strong>Price:</strong> {{ car.price }} </br>
+      <strong>Phone Number:</strong> {{ car.phone_number }}
+    </div>
+    <div class="desc">
+      <h3>Apraksts:</h3>
+      <p>{{ car['description'] }}</p>
+    </div>
+  </content>
+  <footer>
+    <div class="footer-content">
+      <p>2023 TT Coursework. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
