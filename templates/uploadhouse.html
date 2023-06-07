@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>House Upload</title>
+</head>
+<body>
+    <h1>Upload House</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div>
+            <label for="address">Address:</label>
+            {{ form.address() }}
+        </div>
+        <div>
+            <label for="city">City:</label>
+            {{ form.city() }}
+        </div>
+        <div>
+            <label for="bedrooms">Bedrooms:</label>
+            {{ form.bedrooms() }}
+        </div>
+        <div>
+            <label for="bathrooms">Bathrooms:</label>
+            {{ form.bathrooms() }}
+        </div>
+        <div>
+            <label for="area">Area:</label>
+            {{ form.area() }}
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            {{ form.description() }}
+        </div>
+        <div>
+            <label for="image">Image:</label>
+            {{ form.image() }}
+        </div>
+        <div>
+            <label for="price">Price:</label>
+            {{ form.price() }}
+        </div>
+        <div>
+            <label for="phone_number">Phone Number:</label>
+            {{ form.phone_number() }}
+        </div>
+        <div>
+            <input type="submit" value="Upload">
+        </div>
+    </form>
+</body>
+</html>

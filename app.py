@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed
 from flaskext.mysql import MySQL
 from wtforms import FileField, StringField, TextAreaField, IntegerField, DecimalField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, NumberRange
 
+from Services.HouseService import HouseService
 from Services.ImageService import ImageService
+from Services.TechItemService import TechItemService
 from Services.config import DatabaseConfig
 import os
 from werkzeug.utils import secure_filename
@@ -33,6 +36,9 @@ mysql.init_app(app)
 car_service = CarService(mysql)
 user_service = UserService(mysql)
 image_service = ImageService(mysql)
+house_service = HouseService(mysql)
+tech_item_service = TechItemService(mysql)
+
 
 
 # Decorator function to check if the user is authenticated
@@ -158,6 +164,116 @@ def uploadcar():
         return redirect(url_for('home'))
 
     return render_template('uploadcar.html', form=form, car=None)
+
+
+@app.route('/houses', methods=['GET'])
+def houses():
+    # Read the username from the session
+    username = session.get('username')
+
+    # Retrieve all houses from the database
+    houses = house_service.get_all_houses()
+
+    return render_template('houses.html', username=username, houses=houses)
+
+@app.route('/house_details/<int:house_id>')
+def house_details(house_id):
+    house = house_service.get_house_by_id(house_id)
+    if house:
+        return render_template('house_details.html', house=house)
+    else:
+        flash('House not found!')
+        return redirect(url_for('houses'))
+
+class UploadFormHouse(FlaskForm):
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    bedrooms = IntegerField('Bedrooms', validators=[DataRequired()])
+    bathrooms = IntegerField('Bathrooms', validators=[DataRequired()])
+    area = StringField('Area', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    image = FileField('Image', validators=[DataRequired()])
+    price = DecimalField('Price', validators=[DataRequired()])
+    phone_number = StringField('Phone Number', validators=[DataRequired()])
+
+
+
+@login_required
+@app.route('/uploadhouse', methods=['GET', 'POST'])
+def uploadhouse():
+    form = UploadFormHouse()
+    if form.validate_on_submit():
+        image_file = form.image.data
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        try:
+            bedrooms = int(form.bedrooms.data)
+        except ValueError:
+            flash('Please enter a valid number for bedrooms.')
+            return redirect(url_for('uploadhouse'))
+
+        image_service.save_image_path(image_path)
+        address = form.address.data
+        city = form.city.data
+        bedrooms = form.bedrooms.data
+        bathrooms = form.bathrooms.data
+        area = form.area.data
+        description = form.description.data
+        price = form.price.data
+        phone_number = form.phone_number.data
+        house_service.save_house(address, city, bedrooms, bathrooms, area, description, image_path, price, phone_number)
+
+        flash('House uploaded successfully!')
+        return redirect(url_for('houses'))
+
+    return render_template('uploadhouse.html', form=form)
+
+
+class UploadFormTech(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    brand = StringField('Brand', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
+    price = DecimalField('Price', validators=[DataRequired(), NumberRange(min=0)])
+    phone_number = StringField('Phone Number', validators=[DataRequired()])
+
+
+@app.route('/uploadtech', methods=['GET', 'POST'])
+def uploadtech():
+    form = UploadFormTech()
+    if form.validate_on_submit():
+        image_file = form.image.data
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+        tech_item_service.save_tech_item(
+            form.name.data,
+            form.brand.data,
+            form.description.data,
+            image_path,
+            form.price.data,
+            form.phone_number.data
+        )
+
+        flash('Tech item uploaded successfully!')
+        return redirect(url_for('home'))
+
+    return render_template('uploadtech.html', form=form)
+
+@app.route('/techitems', methods=['GET'])
+def tech_items():
+    # Retrieve all tech items from the database
+    tech_items = tech_item_service.get_all_tech_items()
+
+    return render_template('techitems_details.html', tech_items=tech_items)
+
+
+
+
 
 if __name__ == '__main__':
     app.run()

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tech Item Details</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+</head>
+
+<body>
+  <h1>Tech Item Details</h1>
+
+  <img src="{{ url_for('static', filename=tech_item['image_path'].replace('static/', '')) }}" alt="Tech Item Image">
+
+  <div>
+    <strong>Name:</strong> {{ tech_item.name }}
+  </div>
+
+  <div>
+    <strong>Brand:</strong> {{ tech_item.brand }}
+  </div>
+
+  <div>
+    <strong>Description:</strong> {{ tech_item.description }}
+  </div>
+
+  <div>
+    <strong>Price:</strong> {{ tech_item.price }}
+  </div>
+
+  <div>
+    <strong>Phone Number:</strong> {{ tech_item.phone_number }}
+  </div>
+</body>
+
+</html>
