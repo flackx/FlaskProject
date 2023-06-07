@@ -20,10 +20,12 @@
         </li>
       </ul>
       <div id="user-welcome">
-        <h2>Sveicināti, {{ username }}!</h2>
-      </div>
-      <div id="logout-button">
-        <a href="{{ url_for('logout') }}" class="slud">Izlogoties</a>
+        <div class="greeting">
+          <h2>Sveicināti, {{ username }}!</h2>
+        </div>
+        <div class="logout">
+          <a href="{{ url_for('logout') }}" class="slud">Iziet</a>
+        </div>
       </div>
     </nav>
     <content class="cars">

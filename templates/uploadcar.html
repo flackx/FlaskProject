@@ -1,45 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Car Sale - Upload</title>
-</head>
-<body>
-  <h1>Upload a Car</h1>
+  <head>
+    <title>Car Sale - Upload</title>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/upload.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="sitename">NotSS</div>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Transporti</a></li>
+        <li><a href="">Mājokļi</a></li>
+        <li><a href="">Elektronikas Preces</a></li>
+        <li class="sludinajums">
+          <a href="{{ url_for('uploadcar') }}" class="slud"
+            >Pievienot sludinājumu</a
+          >
+        </li>
+      </ul>
+      <div id="logout-button">
+        <a href="{{ url_for('logout') }}" class="slud">Iziet</a>
+      </div>
+    </nav>
 
-  <form method="POST" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
+    <content class="contents">
+      <div class="title">Pievienot mašīnas sludinājumu!</div>
+      <div class="forma">
+        <form method="POST" enctype="multipart/form-data">
+          <div class="rinda">
+            <div class="label">{{ form.year.label }}</div>
+            <div class="lauks">{{ form.year() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label">{{ form.make.label }}</div>
+            <div class="lauks">{{ form.make() }}</div>
+          </div>
 
-    <div>
-      {{ form.year.label }}: {{ form.year() }}
-    </div>
+          <div class="rinda">
+            <div class="label">{{ form.model.label }}</div>
+            <div class="lauks">{{ form.model() }}</div>
+          </div>
 
-    <div>
-      {{ form.make.label }}: {{ form.make() }}
-    </div>
+          <div class="rinda">
+            <div class="label">{{ form.price.label }}</div>
+            <div class="lauks">{{ form.price() }}</div>
+          </div>
 
-    <div>
-      {{ form.model.label }}: {{ form.model() }}
-    </div>
+          <div class="rinda">
+            <div class="label">{{ form.phone_number.label }}</div>
+            <div class="lauks">{{ form.phone_number() }}</div>
+          </div>
 
-
-
-    <div>
-      {{ form.price.label }}: {{ form.price() }}
-    </div>
-
-    <div>
-      {{ form.phone_number.label }}: {{ form.phone_number() }}
-    </div>
-
-    <div>
-      {{ form.image.label }}: {{ form.image() }}
-    </div>
- <div>
-      {{ form.description.label }}: {{ form.description() }}
-    </div>
-    <div>
-      <input type="submit" value="Upload">
-    </div>
-  </form>
-</body>
+          <div class="rinda">
+            <div class="label">{{ form.image.label }}</div>
+            <div class="lauks_bilde">{{ form.image() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label">{{ form.description.label }}</div>
+            <div class="lauks_apraksts">{{ form.description() }}</div>
+          </div>
+          <div class="poga">
+            <input type="submit" value="Upload" />
+          </div>
+        </form>
+      </div>
+    </content>
+    <footer>
+      <div class="footer-content">
+        <p>2023 TT Coursework. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
 </html>
