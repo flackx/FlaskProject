@@ -1,14 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Car Details</title>
-</head>
-<body>
-    <h1>Car Details</h1>
-    <div>
-        <h2>{{ car['make'] }} {{ car['model'] }} ({{ car['year'] }})</h2>
-        <img src="{{ url_for('static', filename=car['image_path'].replace('static/', '')) }}" alt="Car Image">
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/details.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="sitename">NotSS</div>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Transporti</a></li>
+        <li><a href="">Mājokļi</a></li>
+        <li><a href="">Elektronikas Preces</a></li>
+        <li class="sludinajums">
+          <a href="{{ url_for('upload') }}" class="slud"
+            >Pievienot sludinajumu</a
+          >
+        </li>
+      </ul>
+      <div class="username">John Doe</div>
+    </nav>
+    <content class="details">
+      <div class="heading-container">
+        <img
+          src="{{ url_for('static', filename='images/caricon.png') }}"
+          alt="Ikona"
+        />
+        <h1>{{ car['make'] }} {{ car['model'] }} ({{ car['year'] }})</h1>
+      </div>
+      <div class="pic-centered">
+        <div class="pic">
+          <img
+            src="{{ url_for('static', filename=car['image_path'].replace('static/', '')) }}"
+            alt="Car Image"
+          />
+        </div>
+      </div>
+      <div class="desc">
+        <h3>Apraksts:</h3>
         <p>{{ car['description'] }}</p>
-    </div>
-</body>
+      </div>
+    </content>
+    <footer>
+      <div class="footer-content">
+        <p>2023 TT Coursework. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
 </html>

@@ -1,46 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Home</title>
-    <style>
-        .car-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .car-card {
-            width: 300px;
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .car-card h2 {
-            margin-top: 0;
-        }
-
-        .car-card img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .car-card p {
-            margin: 10px 0;
-        }
-    </style>
-</head>
-<body>
-    <h1>Car Gallery</h1>
-    <div class="car-gallery">
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/home.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="sitename">NotSS</div>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Transporti</a></li>
+        <li><a href="">Mājokļi</a></li>
+        <li><a href="">Elektronikas Preces</a></li>
+        <li class="sludinajums">
+          <a href="{{ url_for('upload') }}" class="slud"
+            >Pievienot sludinajumu</a
+          >
+        </li>
+      </ul>
+      <div class="username">John Doe</div>
+    </nav>
+    <content class="cars">
+      <div class="heading-container">
+        <img
+          src="{{ url_for('static', filename='images/caricon.png') }}"
+          alt="Ikona"
+        />
+        <h1>Transports un tehnika</h1>
+      </div>
+      <div class="car-gallery">
         {% for car in cars %}
-        <a href="{{ url_for('car_details', car_id=car['id']) }}" class="car-card">
-            <h2>{{ car['make'] }} {{ car['model'] }} ({{ car['year'] }})</h2>
-        <img src="{{ url_for('static', filename=car['image_path'].replace('static/', '')) }}" alt="Car Image">
+        <a
+          href="{{ url_for('car_details', car_id=car['id']) }}"
+          class="car-card"
+        >
+          <h2 class="first">{{ car['make'] }} {{ car['model'] }}</h2>
+          <h2 class="second">({{ car['year'] }})</h2>
+          <img
+            src="{{ url_for('static', filename=car['image_path'].replace('static/', '')) }}"
+            alt="Car Image"
+          />
         </a>
         {% endfor %}
-    </div>
-</body>
+      </div>
+    </content>
+    <footer>
+      <div class="footer-content">
+        <p>2023 TT Coursework. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
 </html>
