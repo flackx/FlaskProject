@@ -156,7 +156,8 @@ def uploadcar():
 
         flash('Car uploaded successfully!')
         return redirect(url_for('home'))
-    return render_template('uploadcar.html', form=form)
+
+    return render_template('uploadcar.html', form=form, car=None)
 
 if __name__ == '__main__':
     app.run()
