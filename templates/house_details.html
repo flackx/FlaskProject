@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/house_details.css') }}"
+      href="{{ url_for('static', filename='css/details.css') }}"
     />
   </head>
   <body>
@@ -19,29 +19,30 @@
           <a href="{{ url_for('uploadhouse') }}" class="slud">Pievienot sludinājumu</a>
         </li>
       </ul>
-      <div id="user-welcome">
-        <h2>Sveicināti, {{ username }}!</h2>
-      </div>
       <div id="logout-button">
         <a href="{{ url_for('logout') }}" class="slud">Izlogoties</a>
       </div>
     </nav>
-    <content class="house-details">
-      <div class="house-image">
+    <content class="details">
+      <div class="pic-centered">
+        <div class="pic">
         <img
           src="{{ url_for('static', filename=house['image_path'].replace('static/', '')) }}"
           alt="House Image"
         />
       </div>
+    </div>
       <div class="house-info">
-        <h1>{{ house['address'] }}</h1>
-        <h2>{{ house['city'] }}</h2>
-        <p>Area: {{ house['area'] }}</p>
-        <p>Bedrooms: {{ house['bedrooms'] }}</p>
-        <p>Bathrooms: {{ house['bathrooms'] }}</p>
-        <p>Description: {{ house['description'] }}</p>
-        <p>Price: {{ house['price'] }}</p>
-        <p>Contact: {{ house['phone_number'] }}</p>
+        <h1>{{ house['city'] }}</h1>
+        <h2>{{ house['address'] }}</h2>
+        <strong>Area:</strong> {{ house['area'] }} </br>
+        <strong>Bedrooms:</strong> {{ house['bedrooms'] }}</br>
+        <strong>Bathrooms:</strong> {{ house['bathrooms'] }}</br>
+        <strong>Price:</strong> {{ house['price'] }}</br>
+        <strong>Contact:</strong> {{ house['phone_number'] }}</br>
+        <div class="desc">
+          <h3>Apraksts:</h3> <p>{{ house['description'] }}</p>
+        </div>
       </div>
     </content>
     <footer>

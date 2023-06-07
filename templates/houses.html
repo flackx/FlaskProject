@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/houses.css') }}"
+      href="{{ url_for('static', filename='css/home.css') }}"
     />
   </head>
   <body>
@@ -23,7 +23,7 @@
         <a href="{{ url_for('logout') }}" class="slud">Izlogoties</a>
       </div>
     </nav>
-    <content class="houses">
+    <content class="cars">
       <div class="heading-container">
         <img
           src="{{ url_for('static', filename='images/houseicon.png') }}"
@@ -31,11 +31,11 @@
         />
         <h1>Mājokļi</h1>
       </div>
-      <div class="house-gallery">
+      <div class="car-gallery">
         {% for house in houses %}
         <a
           href="{{ url_for('house_details', house_id=house['id']) }}"
-          class="house-card"
+          class="car-card"
         >
           <h2 class="first">{{ house['address'] }}</h2>
           <h2 class="second">({{ house['city'] }})</h2>

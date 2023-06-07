@@ -1,60 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>House Upload</title>
-</head>
-<body>
-    <h1>Upload House</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    <form method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <div>
-            <label for="address">Address:</label>
-            {{ form.address() }}
-        </div>
-        <div>
-            <label for="city">City:</label>
-            {{ form.city() }}
-        </div>
-        <div>
-            <label for="bedrooms">Bedrooms:</label>
-            {{ form.bedrooms() }}
-        </div>
-        <div>
-            <label for="bathrooms">Bathrooms:</label>
-            {{ form.bathrooms() }}
-        </div>
-        <div>
-            <label for="area">Area:</label>
-            {{ form.area() }}
-        </div>
-        <div>
-            <label for="description">Description:</label>
-            {{ form.description() }}
-        </div>
-        <div>
-            <label for="image">Image:</label>
-            {{ form.image() }}
-        </div>
-        <div>
-            <label for="price">Price:</label>
-            {{ form.price() }}
-        </div>
-        <div>
-            <label for="phone_number">Phone Number:</label>
-            {{ form.phone_number() }}
-        </div>
-        <div>
-            <input type="submit" value="Upload">
-        </div>
-    </form>
-</body>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/upload.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="sitename">NotSS</div>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Transporti</a></li>
+        <li><a href="">Mājokļi</a></li>
+        <li><a href="">Elektronikas Preces</a></li>
+        <li class="sludinajums">
+          <a href="{{ url_for('uploadcar') }}" class="slud"
+            >Pievienot sludinājumu</a
+          >
+        </li>
+      </ul>
+      <div id="logout-button">
+        <a href="{{ url_for('logout') }}" class="slud">Iziet</a>
+      </div>
+    </nav>
+    <content class="contents">
+      <div class="title">Pievienot dzīvojamās vietas sludinājumu!</div>
+      <div class="forma">
+        <form method="POST" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          <div>
+            <div class="rinda">
+              <div class="label">
+                <label for="address">Address</label>
+              </div>
+              <div class="lauks">{{ form.address() }}</div>
+            </div>
+          </div>
+          <div class="rinda">
+            <div class="label"><label for="city">City</label></div>
+            <div class="lauks">{{ form.city() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label"><label for="bedrooms">Bedrooms</label></div>
+            <div class="lauks">{{ form.bedrooms() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label"><label for="bathrooms">Bathrooms</label></div>
+            <div class="lauks">{{ form.bathrooms() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label"><label for="area">Area</label></div>
+            <div class="lauks">{{ form.area() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label">
+              <label for="description">Description</label>
+            </div>
+            <div class="lauks_apraksts">{{ form.description() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label"><label for="image">Image</label></div>
+            <div class="lauks_bilde">{{ form.image() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label"><label for="price">Price</label></div>
+            <div class="lauks">{{ form.price() }}</div>
+          </div>
+          <div class="rinda">
+            <div class="label">
+              <label for="phone_number">Phone Number</label>
+            </div>
+            <div class="lauks">{{ form.phone_number() }}</div>
+          </div>
+          <div class="poga">
+            <input type="submit" value="Upload" />
+          </div>
+        </form>
+      </div>
+    </content>
+    <footer>
+      <div class="footer-content">
+        <p>2023 TT Coursework. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
 </html>
