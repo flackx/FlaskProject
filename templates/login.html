@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Pieslēdzies!</title>
+    <meta charset="utf-8">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/login" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <input type="submit" value="Login">
-    </form>
-    <br>
-    <a href="/register">Not registered yet? Register here</a>
+    <div id="card">
+        <div id="left">
+            <div id="content">
+            <img src="{{ url_for('static', filename='images/login.png') }}" alt="Your Image">.            </div>
+        </div>
+        <div id="right">
+            <div id="content">
+                <h1>Pieslēdzies!</h1>
+                <form action="/login" method="POST">
+                    <input type="text" id="username" name="username" placeholder="Lietotājvārds" required><br><br>
+                    <input type="password" id="password" name="password" placeholder="Parole" required><br><br>
+                    <input type="submit" value="Pieslēgties!">
+                    <button class="button" onclick="window.location.href = '{{ url_for('register') }}';">Reģistrēties!</button>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
