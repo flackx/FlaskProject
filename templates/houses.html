@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Houses</title>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/houses.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="sitename">NotSS</div>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Transporti</a></li>
+        <li><a href="{{ url_for('houses') }}">Mājokļi</a></li>
+        <li><a href="">Elektronikas Preces</a></li>
+        <li class="sludinajums">
+          <a href="{{ url_for('uploadhouse') }}" class="slud">Pievienot sludinājumu</a>
+        </li>
+      </ul>
+      <div id="user-welcome">
+        <h2>Sveicināti, {{ username }}!</h2>
+      </div>
+      <div id="logout-button">
+        <a href="{{ url_for('logout') }}" class="slud">Izlogoties</a>
+      </div>
+    </nav>
+    <content class="houses">
+      <div class="heading-container">
+        <img
+          src="{{ url_for('static', filename='images/houseicon.png') }}"
+          alt="Ikona"
+        />
+        <h1>Mājokļi</h1>
+      </div>
+      <div class="house-gallery">
+        {% for house in houses %}
+        <a
+          href="{{ url_for('house_details', house_id=house['id']) }}"
+          class="house-card"
+        >
+          <h2 class="first">{{ house['address'] }}</h2>
+          <h2 class="second">({{ house['city'] }})</h2>
+          <img
+            src="{{ url_for('static', filename=house['image_path'].replace('static/', '')) }}"
+            alt="House Image"
+          />
+        </a>
+        {% endfor %}
+      </div>
+    </content>
+    <footer>
+      <div class="footer-content">
+        <p>2023 TT Coursework. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

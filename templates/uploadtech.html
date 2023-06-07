@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Car Sale - Upload</title>
+</head>
+<body>
+  <h1>Upload a tech item</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div>
+      {{ form.year.label }}: {{ form.year() }}
+    </div>
+
+    <div>
+      {{ form.make.label }}: {{ form.make() }}
+    </div>
+
+    <div>
+      {{ form.model.label }}: {{ form.model() }}
+    </div>
+
+
+
+    <div>
+      {{ form.price.label }}: {{ form.price() }}
+    </div>
+
+    <div>
+      {{ form.phone_number.label }}: {{ form.phone_number() }}
+    </div>
+
+    <div>
+      {{ form.image.label }}: {{ form.image() }}
+    </div>
+ <div>
+      {{ form.description.label }}: {{ form.description() }}
+    </div>
+    <div>
+      <input type="submit" value="Upload">
+    </div>
+  </form>
+</body>
+</html>
