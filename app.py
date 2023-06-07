@@ -1,18 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask_wtf import FlaskForm
 from flaskext.mysql import MySQL
-from service import UserService, ImageService
-from Resources.config import DatabaseConfig
+from wtforms import FileField, StringField, TextAreaField, IntegerField
+from Services.ImageService import ImageService
+from Services.config import DatabaseConfig
 import os
 from werkzeug.utils import secure_filename
 from functools import wraps
+from Services.CarService import CarService
+from Services.UserService import UserService
+from flask import Flask, render_template
+
 
 app = Flask(__name__, static_folder='static')
 
+app.config['UPLOAD_FOLDER'] = 'static/images'
 
-UPLOAD_FOLDER = 'Resources/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
 app.config['MYSQL_DATABASE_HOST'] = DatabaseConfig.HOST
 app.config['MYSQL_DATABASE_PORT'] = DatabaseConfig.PORT
@@ -23,6 +28,7 @@ app.config['MYSQL_DATABASE_DB'] = DatabaseConfig.DB
 mysql = MySQL()
 mysql.init_app(app)
 
+car_service = CarService(mysql)
 user_service = UserService(mysql)
 image_service = ImageService(mysql)
 
@@ -40,9 +46,23 @@ def login_required(f):
 
 
 @app.route('/', methods=['GET'])
-def home():
-    return render_template('home.html')
+def default():
+    return redirect(url_for('login'))
 
+
+@app.route('/home')
+def home():
+    cars = car_service.get_all_cars()
+    return render_template('home.html', cars=cars)
+
+@app.route('/car_details/<int:car_id>')
+def car_details(car_id):
+    car = car_service.get_car_by_id(car_id)
+    if car:
+        return render_template('car_details.html', car=car)
+    else:
+        flash('Car not found!')
+        return redirect(url_for('home'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -64,89 +84,62 @@ def login():
             flash('Invalid username or password!')
             return redirect(url_for('login'))
 
-    # Render the login form
     return render_template('login.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Handle the registration form submission
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
 
-        # Save the user data to the database
         user_service.register_user(username, password, email)
 
-        # Redirect to a success page or another route
         return redirect(url_for('home'))
 
-    # Render the registration form
     return render_template('register.html')
-
 
 @app.route('/gallery')
 @login_required
 def gallery():
-    # Retrieve image paths from the database
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT filepath FROM images")
-    data = cursor.fetchall()
-    cursor.close()
-    conn.close()
+    cars = car_service.get_all_cars()
 
-    # Create a list of image paths
-    image_paths = [row[0] for row in data]
-
-    return render_template('gallery.html', image_paths=image_paths)
-
+    return render_template('gallery.html', cars=cars)
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+class UploadForm(FlaskForm):
+    make = StringField('Make')
+    model = StringField('Model')
+    year = IntegerField('Year')
+    description = TextAreaField('Description')
+    image = FileField('Image')
 
-@app.route('/upload', methods=['GET', 'POST'])
+
 @login_required
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    if request.method == 'POST':
-        # Check if file is present in the request
-        if 'file' not in request.files:
-            flash("No file selected!")
-            return redirect(request.url)
+    form = UploadForm()
+    if form.validate_on_submit():
+        image_file = form.image.data
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        file = request.files['file']
+        image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-        # Check if the file is empty
-        if file.filename == '':
-            flash("No file selected!")
-            return redirect(request.url)
+        image_service.save_image_path(image_path)
+        model = form.model.data
+        make = form.make.data
+        year = form.year.data
+        description = form.description.data
+        car_service.save_car(model, description, image_path, make, year)
 
-        # Check if the file extension is allowed
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(UPLOAD_FOLDER, filename)
-            file.save(filepath)
-
-            # Save the image path to the database
-            conn = mysql.connect()
-            cursor = conn.cursor()
-            query = "INSERT INTO images (filename, filepath) VALUES (%s, %s)"
-            cursor.execute(query, (filename, filepath))
-            conn.commit()
-            cursor.close()
-            conn.close()
-
-            flash("Image uploaded successfully!")
-            return redirect(url_for('gallery'))
-        else:
-            flash("Invalid file extension!")
-            return redirect(request.url)
-
-    return render_template('upload.html')
-
+        flash('Car uploaded successfully!')
+        return redirect(url_for('gallery'))
+    return render_template('upload.html', form=form)
 
 if __name__ == '__main__':
     app.run()

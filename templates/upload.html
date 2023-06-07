@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Upload Image</title>
+  <title>Car Sale - Upload</title>
 </head>
 <body>
-    <h1>Upload Image</h1>
+  <h1>Upload a Car</h1>
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
 
-    <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
-        <input type="file" name="file" required>
-        <br>
-        <input type="submit" value="Upload">
-    </form>
+    <div>
+      {{ form.year.label }}: {{ form.year() }}
+    </div>
+
+    <div>
+      {{ form.make.label }}: {{ form.make() }}
+    </div>
+
+    <div>
+      {{ form.model.label }}: {{ form.model() }}
+    </div>
+
+    <div>
+      {{ form.description.label }}: {{ form.description() }}
+    </div>
+
+    <div>
+      {{ form.image.label }}: {{ form.image() }}
+    </div>
+
+    <div>
+      <input type="submit" value="Upload">
+    </div>
+  </form>
 </body>
 </html>

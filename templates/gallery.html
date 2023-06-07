@@ -2,12 +2,25 @@
 <html>
 <head>
     <title>Gallery</title>
+    <style>
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <h1>Gallery</h1>
-
-    {% for path in image_paths %}
-        <img src="{{ path }}" alt="Image">
-    {% endfor %}
+    <div class="gallery">
+        {% for image_path in image_paths %}
+            <img src="{{ image_path }}" alt="Image">
+        {% endfor %}
+    </div>
 </body>
 </html>

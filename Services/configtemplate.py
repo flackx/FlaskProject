@@ -1,6 +1,6 @@
 class DatabaseConfig:
     HOST = 'localhost'
-    PORT = 0000
+    PORT = 8889
     USER = 'root'
     PASSWORD = 'root'
     DB = 'FlaskProject'

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Car Details</title>
+</head>
+<body>
+    <h1>Test Car Details</h1>
+    {% if car %}
+        <div>
+            <h2>{{ car[1] }} {{ car[2] }} ({{ car[3] }})</h2>
+        <img src="{{ url_for('static', filename=car['image_path']) }}" alt="Car Image">
+            <p>{{ car[4] }}</p>
+        </div>
+    {% else %}
+        <p>Car with ID does not exist.</p>
+    {% endif %}
+</body>
+</html>
