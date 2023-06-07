@@ -2,10 +2,28 @@ class CarService:
     def __init__(self, mysql):
         self.mysql = mysql
 
+    def create_car_table(self):
+        conn = self.mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS cars (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                make VARCHAR(255) NOT NULL,
+                model VARCHAR(255) NOT NULL,
+                year INT,
+                description TEXT,
+                image_path VARCHAR(255),
+                price DECIMAL(10, 2),
+                phone_number VARCHAR(20)
+            )
+        """)
+        cursor.close()
+        conn.close()
+
     def get_all_cars(self):
         conn = self.mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, make, model, year, description, image_path FROM cars")
+        cursor.execute("SELECT id, make, model, year, description, image_path, price, phone_number FROM cars")
         cars = cursor.fetchall()
         cursor.close()
         conn.close()
@@ -19,18 +37,27 @@ class CarService:
                 'model': car[2],
                 'year': car[3],
                 'description': car[4],
-                'image_path': car[5]
+                'image_path': car[5],
+                'price': car[6],
+                'phone_number': car[7]
             }
             cars_list.append(car_dict)
 
         return cars_list
 
-    def save_car(self, model, description, image_path, make, year):
+    def save_car(self, make, model, year, description, image_path, price, phone_number):
         conn = self.mysql.connect()
         cursor = conn.cursor()
+
+        # Check if the 'cars' table exists, and create it if not
+        cursor.execute("SHOW TABLES LIKE 'cars'")
+        table_exists = cursor.fetchone()
+        if not table_exists:
+            self.create_car_table()
+
         cursor.execute(
-            "INSERT INTO cars (make, model, year, description, image_path) VALUES (%s, %s, %s, %s, %s)",
-            (make, model, year, description, image_path),
+            "INSERT INTO cars (make, model, year, description, image_path, price, phone_number) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (make, model, year, description, image_path, price, phone_number),
         )
         conn.commit()
         cursor.close()
@@ -52,7 +79,9 @@ class CarService:
                 'model': car[2],
                 'year': car[3],
                 'description': car[4],
-                'image_path': car[5]
+                'image_path': car[5],
+                'price': car[6],
+                'phone_number': car[7]
             }
             return car_dict
         else:

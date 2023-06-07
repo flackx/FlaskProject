@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_wtf import FlaskForm
 from flaskext.mysql import MySQL
-from wtforms import FileField, StringField, TextAreaField, IntegerField
+from wtforms import FileField, StringField, TextAreaField, IntegerField, DecimalField
+from wtforms.validators import DataRequired
+
 from Services.ImageService import ImageService
 from Services.config import DatabaseConfig
 import os
@@ -50,10 +52,16 @@ def default():
     return redirect(url_for('login'))
 
 
-@app.route('/home')
+@login_required
+@app.route('/home', methods=['GET'])
 def home():
+    # Read the username from the session
+    username = session.get('username')
+
+    # Retrieve all cars from the database
     cars = car_service.get_all_cars()
-    return render_template('home.html', cars=cars)
+
+    return render_template('home.html', username=username, cars=cars)
 
 @app.route('/car_details/<int:car_id>')
 def car_details(car_id):
@@ -80,12 +88,17 @@ def login():
             session['username'] = user[1]
             return redirect(url_for('home'))
         else:
-            # If login is unsuccessful, redirect back to the login page with an error message
-            flash('Invalid username or password!')
-            return redirect(url_for('login'))
+            # If login is unsuccessful, render the login page with an error message
+            error = 'Invalid username or password!'
+            return render_template('login.html', error=error)
 
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    # Logic for logging out the user
+    # This can include clearing session data, redirecting to the login page, etc.
+    return 'Logged out successfully'  # Placeholder response, customize as needed
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -111,18 +124,20 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-class UploadForm(FlaskForm):
-    make = StringField('Make')
-    model = StringField('Model')
-    year = IntegerField('Year')
-    description = TextAreaField('Description')
-    image = FileField('Image')
+class UploadFormCar(FlaskForm):
+    make = StringField('Make', validators=[DataRequired()])
+    model = StringField('Model', validators=[DataRequired()])
+    year = IntegerField('Year', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    image = FileField('Image', validators=[DataRequired()])
+    price = DecimalField('Price', validators=[DataRequired()])
+    phone_number = StringField('Phone Number', validators=[DataRequired()])
 
 
 @login_required
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    form = UploadForm()
+@app.route('/uploadcar', methods=['GET', 'POST'])
+def uploadcar():
+    form = UploadFormCar()
     if form.validate_on_submit():
         image_file = form.image.data
         filename = secure_filename(image_file.filename)
@@ -131,15 +146,17 @@ def upload():
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
         image_service.save_image_path(image_path)
-        model = form.model.data
         make = form.make.data
+        model = form.model.data
         year = form.year.data
         description = form.description.data
-        car_service.save_car(model, description, image_path, make, year)
+        price = form.price.data
+        phone_number = form.phone_number.data
+        car_service.save_car(make, model, year, description, image_path, price, phone_number)
 
         flash('Car uploaded successfully!')
-        return redirect(url_for('gallery'))
-    return render_template('upload.html', form=form)
+        return redirect(url_for('home'))
+    return render_template('uploadcar.html', form=form)
 
 if __name__ == '__main__':
     app.run()

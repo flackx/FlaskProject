@@ -16,12 +16,15 @@
         <li><a href="">Mājokļi</a></li>
         <li><a href="">Elektronikas Preces</a></li>
         <li class="sludinajums">
-          <a href="{{ url_for('upload') }}" class="slud"
-            >Pievienot sludinajumu</a
-          >
+          <a href="{{ url_for('uploadcar') }}" class="slud">Pievienot sludinājumu</a>
         </li>
       </ul>
-      <div class="username">John Doe</div>
+      <div id="user-welcome">
+        <h2>Sveicināti, {{ username }}!</h2>
+      </div>
+      <div id="logout-button">
+        <a href="{{ url_for('logout') }}" class="slud">Izlogoties</a>
+      </div>
     </nav>
     <content class="cars">
       <div class="heading-container">
