@@ -90,7 +90,7 @@ nav ul li.sludinajums .slud {
   color: #000080;
 }
 .contents {
-  height: 100%;
+  height: auto;
   width: 70%;
   display: flex;
   margin: 0 auto;
@@ -150,6 +150,7 @@ nav ul li.sludinajums .slud {
 }
 
 input[type="submit"] {
+  padding-bottom: 20px;
   background-color: transparent;
   color: #3498db;
   border: 2px solid #3498db;
@@ -195,4 +196,42 @@ footer {
 .footer-content p::before {
   content: "\00A9";
   margin-right: 5px;
+}
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+nav ul li.sludinajums:hover .dropdown {
+  display: block;
+}
+
+.dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown ul li {
+  margin-bottom: 5px;
+}
+
+.dropdown ul li a {
+  display: block;
+  padding: 5px;
+  color: #000;
+  text-decoration: none;
+}
+
+.dropdown ul li a:hover {
+  background-color: #f0f0f0;
+}
+.dropdown ul li {
+  display: block;
 }

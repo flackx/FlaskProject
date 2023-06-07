@@ -13,16 +13,22 @@
       <div class="sitename">NotSS</div>
       <ul>
         <li><a href="{{ url_for('home') }}">Transporti</a></li>
-        <li><a href="">Mājokļi</a></li>
+        <li><a href="{{ url_for('houses') }}">Mājokli</a></li>
         <li><a href="">Elektronikas Preces</a></li>
         <li class="sludinajums">
-          <a href="{{ url_for('uploadcar') }}" class="slud"
-            >Pievienot sludinājumu</a
-          >
+          <a href="#" class="slud">Pievienot sludinājumu</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="{{ url_for('uploadcar') }}">Transporti</a></li>
+              <li><a href="{{ url_for('uploadhouse') }}">Mājokli</a></li>
+              <li><a href="#">Elektronikas Preces</a></li>
+            </ul>
+          </div>
         </li>
       </ul>
-      <div id="logout-button">
-        <a href="{{ url_for('logout') }}" class="slud">Iziet</a>
+        <div class="logout">
+          <a href="{{ url_for('logout') }}" class="slud">Iziet</a>
+        </div>
       </div>
     </nav>
     <content class="contents">

@@ -91,7 +91,7 @@ nav ul li.sludinajums .slud {
 }
 
 .details {
-  height: 100%;
+  height: auto;
   width: 70%;
   display: block;
   margin: 0 auto;
