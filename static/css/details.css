@@ -165,3 +165,7 @@ footer {
   content: "\00A9";
   margin-right: 5px;
 }
+
+.desc{
+  padding-bottom: 55px;
+}
