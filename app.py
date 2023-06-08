@@ -41,7 +41,6 @@ tech_item_service = TechItemService(mysql)
 
 
 
-# Decorator function to check if the user is authenticated
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -61,10 +60,8 @@ def default():
 @login_required
 @app.route('/home', methods=['GET'])
 def home():
-    # Read the username from the session
     username = session.get('username')
 
-    # Retrieve all cars from the database
     cars = car_service.get_all_cars()
 
     return render_template('home.html', username=username, cars=cars)
@@ -81,20 +78,16 @@ def car_details(car_id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # Handle the login form submission
         username = request.form['username']
         password = request.form['password']
 
-        # Verify login credentials against the database
         user = user_service.verify_credentials(username, password)
 
         if user:
-            # If login is successful, store user session data
             session['user_id'] = user[0]
             session['username'] = user[1]
             return redirect(url_for('home'))
         else:
-            # If login is unsuccessful, render the login page with an error message
             error = 'Invalid username or password!'
             return render_template('login.html', error=error)
 
@@ -102,9 +95,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    # Logic for logging out the user
-    # This can include clearing session data, redirecting to the login page, etc.
-    return 'Logged out successfully'  # Placeholder response, customize as needed
+    return 'Logged out successfully'
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -168,10 +159,8 @@ def uploadcar():
 
 @app.route('/houses', methods=['GET'])
 def houses():
-    # Read the username from the session
     username = session.get('username')
 
-    # Retrieve all houses from the database
     houses = house_service.get_all_houses()
 
     return render_template('houses.html', username=username, houses=houses)
@@ -266,13 +255,9 @@ def uploadtech():
 
 @app.route('/techitems', methods=['GET'])
 def tech_items():
-    # Retrieve all tech items from the database
     tech_items = tech_item_service.get_all_tech_items()
 
     return render_template('techitems_details.html', tech_items=tech_items)
-
-
-
 
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ body{
 }
 #card{
     width: 20%;
-    height: 40%;
+    height: 60%;
     background-color: #eeeeee;
     border-radius: 60px;
     padding: 2rem;
@@ -76,4 +76,12 @@ input[type="submit"]:hover {
 .button:hover{
     background-color: #db3341;
     color: #fff;
+}
+
+#content img{
+    width: 120px;
+    height: 120px;
+    display: block;
+    margin: 0 auto;
+    padding-bottom: 10%;
 }
